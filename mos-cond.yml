@@ -1,0 +1,71 @@
+author: Ben Rockwood <benr@cuddletech.com>
+description: MongooseOS + Huzzah32 + OLED FeatherWing Name Badge
+version: 1.0
+platform: esp32
+platforms: [ esp8266, esp32 ]
+
+libs_version: ${mos.version}
+modules_version: ${mos.version}
+mongoose_os_version: ${mos.version}
+
+filesystem:
+  - fs
+
+libs:
+    # common mgos libs
+  - origin: https://github.com/mongoose-os-libs/mjs
+  - origin: https://github.com/mongoose-os-libs/wifi
+  - origin: https://github.com/mongoose-os-libs/ca-bundle
+  - origin: https://github.com/mongoose-os-libs/rpc-service-config
+  - origin: https://github.com/mongoose-os-libs/rpc-service-fs
+  - origin: https://github.com/mongoose-os-libs/rpc-uart
+  - origin: https://github.com/mongoose-os-libs/i2c
+  - origin: https://github.com/mongoose-os-libs/adc
+  - origin: https://github.com/mongoose-os-libs/mqtt
+  - origin: https://github.com/mongoose-os-libs/rpc-mqtt
+  - origin: https://github.com/mongoose-os-libs/arduino-adafruit-ssd1306
+
+config_schema:
+  - ["i2c.enable", true]
+  - ["featherwing", "o", {title: "FeatherWing Configuration"}]
+  - ["featherwing.buttons", "s", {title: "FeatherWing Button Pins"}]
+  - ["featherwing.buttons.a", "i", {title: "FeatherWing Button A Pin"}]
+  - ["featherwing.buttons.b", "i", {title: "FeatherWing Button B Pin"}]
+  - ["featherwing.buttons.c", "i", {title: "FeatherWing Button C Pin"}]
+  ## Default Values
+  - ["featherwing.buttons.a", 15]
+  - ["featherwing.buttons.b", 32]
+  - ["featherwing.buttons.c", 14]
+  - ["featherwing.oled_addr", "i", {title: "FeatherWing OLED I2C Address"}]
+  - ["featherwing.oled_addr", 0x3C]
+                                
+conds:
+  - when: mos.platform == "esp32"
+    apply:
+      build_vars:
+        MGOS_PLATFORM_ESP32: 1
+      config_schema:
+	## Adafruit Feather Huzzah32:
+        - ["i2c.scl_gpio", 22] 
+        - ["i2c.sda_gpio", 23]
+        - ["featherwing.buttons.a", 15]
+        - ["featherwing.buttons.b", 32]
+        - ["featherwing.buttons.c", 14]
+  - when: mos.platform == "esp8266"
+    apply:
+      build_vars:
+        MGOS_PLATFORM_ESP8266: 1
+      config_schema:
+	## Adafruit Feather Huzzah:
+        - ["i2c.scl_gpio", 5]
+        - ["i2c.sda_gpio", 4]
+        - ["featherwing.buttons.a", 0]
+        - ["featherwing.buttons.b", 16]
+        - ["featherwing.buttons.c", 2]
+                                
+tags:                           
+  - js                          
+  - arduino                     
+  - hw                          
+                                
+manifest_version: 2017-05-18 

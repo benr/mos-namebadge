@@ -1,0 +1,50 @@
+author: Ben Rockwood <benr@cuddletech.com>
+description: MongooseOS + Huzzah32 + OLED FeatherWing Name Badge
+version: 1.0
+platform: esp32
+platforms: [ esp8266, esp32 ]
+
+libs_version: ${mos.version}
+modules_version: ${mos.version}
+mongoose_os_version: ${mos.version}
+
+filesystem:
+  - fs
+
+libs:
+    # common mgos libs
+  - origin: https://github.com/mongoose-os-libs/mjs
+  - origin: https://github.com/mongoose-os-libs/wifi
+  - origin: https://github.com/mongoose-os-libs/ca-bundle
+  - origin: https://github.com/mongoose-os-libs/rpc-service-config
+  - origin: https://github.com/mongoose-os-libs/rpc-service-fs
+  - origin: https://github.com/mongoose-os-libs/rpc-service-i2c
+  - origin: https://github.com/mongoose-os-libs/rpc-uart
+  - origin: https://github.com/mongoose-os-libs/i2c
+  - origin: https://github.com/mongoose-os-libs/adc
+  - origin: https://github.com/mongoose-os-libs/mqtt
+  - origin: https://github.com/mongoose-os-libs/rpc-mqtt
+  - origin: https://github.com/mongoose-os-libs/arduino-adafruit-ssd1306
+
+config_schema:
+  - ["i2c.enable", true]
+  - ["i2c.scl_gpio", 22] 
+  - ["i2c.sda_gpio", 23]
+  - ["featherwing", "o", {title: "FeatherWing Configuration"}]
+  - ["featherwing.buttons", "o", {title: "FeatherWing Button Pins"}]
+  - ["featherwing.buttons.a", "i", {title: "FeatherWing Button A Pin"}]
+  - ["featherwing.buttons.b", "i", {title: "FeatherWing Button B Pin"}]
+  - ["featherwing.buttons.c", "i", {title: "FeatherWing Button C Pin"}]
+  - ["featherwing.buttons.a", 15]
+  - ["featherwing.buttons.b", 32]
+  - ["featherwing.buttons.c", 14]
+  - ["featherwing.oled_addr", "i", {title: "FeatherWing OLED I2C Address"}]
+  - ["featherwing.oled_addr", 0x3C]
+                                
+                                
+tags:                           
+  - js                          
+  - arduino                     
+  - hw                          
+                                
+manifest_version: 2017-05-18 
